@@ -95,7 +95,7 @@
         <section id="get-events" class="mb-8">
           <h3 class="text-xl font-semibold mb-2">GET /events</h3>
           <p class="mb-2">
-            <strong>Beskrivelse:</strong> Returnerer alle events. Hvert event beriges med tilhørende lokationsdata. Hvis et event ikke har maleri-ID'er (`paintingsIds`), tildeles der et placeholder- eller tilfældigt billede.
+            <strong>Beskrivelse:</strong> Returnerer alle events. Hvert event beriges med tilhørende lokationsdata. Hvis et event ikke har maleri-ID'er (`paintingsIds`), tildeles der et tilfældigt billede.
           </p>
           <p class="mb-2"><strong>Anmodning:</strong></p>
           <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
@@ -114,7 +114,7 @@
       "description": "Beskrivelse af eventet. Kan indeholde linjeskift.",
       "totalTickets": 50,
       "bookedTickets": 17,
-      "paintingsIds": ["https://via.placeholder.com/150?text=Image+2"],
+      "paintingsIds": ["KS2"],
       "location": {
         "id": "1",
         "name": "Kunsthallen A",
@@ -131,7 +131,7 @@
         <section id="get-eventsid" class="mb-8">
           <h3 class="text-xl font-semibold mb-2">GET /events/:id</h3>
           <p class="mb-2">
-            <strong>Beskrivelse:</strong> Returnerer detaljer om et specifikt event baseret på eventets id. Inkluderer lokationsinformation, og hvis der ikke findes maleri-ID'er, anvendes et placeholder-billede.
+            <strong>Beskrivelse:</strong> Returnerer detaljer om et specifikt event baseret på eventets id. Inkluderer lokationsinformation, og hvis der ikke findes maleri-ID'er, anvendes et tilfældigt billede.
           </p>
           <p class="mb-2"><strong>Anmodning:</strong></p>
           <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
@@ -146,10 +146,10 @@
     "date": "2025-05-01",
     "locationId": "1",
     "curator": "Anna K.",
-    "description": "Beskrivelse af eventet. Kan indeholde linjeskift.",
+    "description": "Beskrivelse af eventet.",
     "totalTickets": 50,
     "bookedTickets": 17,
-    "paintingsIds": ["https://via.placeholder.com/150?text=Image+2"],
+    "paintingsIds": ["KS2"],
     "location": {
       "id": "1",
       "name": "Kunsthallen A",
@@ -167,7 +167,7 @@
         <section id="post-events" class="mb-8">
           <h3 class="text-xl font-semibold mb-2">POST /events</h3>
           <p class="mb-2">
-            <strong>Beskrivelse:</strong> Opretter et nyt event. Feltet <code>paintingsIds</code> er et array af maleri-ID'er.
+            <strong>Beskrivelse:</strong> Opretter et nyt event. Feltet <code>paintingsIds</code> er et array af maleri-ID'er fra SMK-API'et ("object_number").
           </p>
           <p class="mb-2"><strong>Anmodnings URL:</strong> <code>POST /events</code></p>
           <p class="mb-2"><strong>Anmodnings body (JSON):</strong></p>

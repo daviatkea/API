@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Docs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto p-4">
+        <header class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">API Dokumentation</h1>
+          <p class="text-lg">
+            <strong>Base URL (lokal):</strong>
+            <code class="bg-gray-200 p-1 rounded">http://localhost:8080</code>
+          </p>
+          <small>Skal udskiftes til Glitch, når projektet skal deployes.</small>
+        </header>
+  
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold mb-4">Endpoints Oversigt</h2>
+          <ol class="list-decimal list-inside">
+            <li><a href="#get-dates" class="text-blue-600 hover:underline">GET /dates</a></li>
+            <li><a href="#get-locations" class="text-blue-600 hover:underline">GET /locations</a></li>
+            <li><a href="#get-events" class="text-blue-600 hover:underline">GET /events</a></li>
+            <li><a href="#get-eventsid" class="text-blue-600 hover:underline">GET /events/:id</a></li>
+            <li><a href="#post-events" class="text-blue-600 hover:underline">POST /events</a></li>
+            <li><a href="#patch-eventsid" class="text-blue-600 hover:underline">PATCH /events/:id</a></li>
+            <li><a href="#put-eventsidbook" class="text-blue-600 hover:underline">PUT /events/:id/book</a></li>
+            <li><a href="#delete-eventsid" class="text-blue-600 hover:underline">DELETE /events/:id</a></li>
+            <li><a href="#post-eventsreset" class="text-blue-600 hover:underline">POST /events/reset</a></li>
+          </ol>
+        </section>
+  
+        <!-- GET /dates -->
+        <section id="get-dates" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">GET /dates</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Returnerer en liste over tilladte datoer, der kan bruges til at oprette events.
+          </p>
+          <p class="mb-2"><strong>Anmodning:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>fetch('http://localhost:8080/dates')
+    .then(res => res.json())
+    .then(data => console.log(data));</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>[
+    "2025-05-01",
+    "2025-05-02",
+    "2025-05-03",
+    "2025-05-04"
+  ]</code></pre>
+        </section>
+  
+        <!-- GET /locations -->
+        <section id="get-locations" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">GET /locations</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Returnerer et array af lokationer, som events kan tilknyttes. Hver lokation indeholder oplysninger om navn, adresse, kapacitet mv.
+          </p>
+          <p class="mb-2"><strong>Anmodning:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>fetch('http://localhost:8080/locations')
+    .then(res => res.json())
+    .then(data => console.log(data));</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>[
+    {
+      "id": "1",
+      "name": "Kunsthallen A",
+      "address": "Nyvej 12, 2100 Kbh",
+      "maxGuests": 50,
+      "maxArtworks": 10
+    },
+    {
+      "id": "2",
+      "name": "Galleri B",
+      "address": "Åboulevarden 21, 8000 Aarhus",
+      "maxGuests": 30,
+      "maxArtworks": 6
+    },
+    {
+      "id": "3",
+      "name": "Warehouse C",
+      "address": "Vestervej 3, 5000 Odense",
+      "maxGuests": 100,
+      "maxArtworks": 15
+    }
+  ]</code></pre>
+        </section>
+  
+        <!-- GET /events -->
+        <section id="get-events" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">GET /events</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Returnerer alle events. Hvert event beriges med tilhørende lokationsdata. Hvis et event ikke har maleri-ID'er (`paintingsIds`), tildeles der et placeholder- eller tilfældigt billede.
+          </p>
+          <p class="mb-2"><strong>Anmodning:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>fetch('http://localhost:8080/events')
+    .then(res => res.json())
+    .then(data => console.log(data));</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>[
+    {
+      "id": "4c25064e-12b3-4f21-bd3e-9c9f9a1df123",
+      "title": "Abstrakt Aften",
+      "date": "2025-05-01",
+      "locationId": "1",
+      "curator": "Anna K.",
+      "description": "Beskrivelse af eventet. Kan indeholde linjeskift.",
+      "totalTickets": 50,
+      "bookedTickets": 17,
+      "paintingsIds": ["https://via.placeholder.com/150?text=Image+2"],
+      "location": {
+        "id": "1",
+        "name": "Kunsthallen A",
+        "address": "Nyvej 12, 2100 Kbh",
+        "maxGuests": 50,
+        "maxArtworks": 10
+      }
+    },
+    ...
+  ]</code></pre>
+        </section>
+  
+        <!-- GET /events/:id -->
+        <section id="get-eventsid" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">GET /events/:id</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Returnerer detaljer om et specifikt event baseret på eventets id. Inkluderer lokationsinformation, og hvis der ikke findes maleri-ID'er, anvendes et placeholder-billede.
+          </p>
+          <p class="mb-2"><strong>Anmodning:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>fetch('http://localhost:8080/events/4c25064e-12b3-4f21-bd3e-9c9f9a1df123')
+    .then(res => res.json())
+    .then(data => console.log(data));</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "id": "4c25064e-12b3-4f21-bd3e-9c9f9a1df123",
+    "title": "Abstrakt Aften",
+    "date": "2025-05-01",
+    "locationId": "1",
+    "curator": "Anna K.",
+    "description": "Beskrivelse af eventet. Kan indeholde linjeskift.",
+    "totalTickets": 50,
+    "bookedTickets": 17,
+    "paintingsIds": ["https://via.placeholder.com/150?text=Image+2"],
+    "location": {
+      "id": "1",
+      "name": "Kunsthallen A",
+      "address": "Nyvej 12, 2100 Kbh",
+      "maxGuests": 50,
+      "maxArtworks": 10
+    }
+  }</code></pre>
+          <p class="mb-2"><strong>Fejl (HTTP 404):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{ "message": "Event not found." }</code></pre>
+        </section>
+  
+        <!-- POST /events -->
+        <section id="post-events" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">POST /events</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Opretter et nyt event. Feltet <code>paintingsIds</code> er et array af maleri-ID'er.
+          </p>
+          <p class="mb-2"><strong>Anmodnings URL:</strong> <code>POST /events</code></p>
+          <p class="mb-2"><strong>Anmodnings body (JSON):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "title": "Event Title",
+    "date": "2025-05-01",
+    "locationId": "1",
+    "curator": "Kurator Navn",
+    "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
+    "paintingsIds": ["KS1", "KS2"]
+  }</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 201):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "id": "f9b5a3c8-7e99-4d45-b4a8-d1234567890a",
+    "title": "Event Title",
+    "date": "2025-05-01",
+    "locationId": "1",
+    "curator": "Kurator Navn",
+    "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
+    "totalTickets": 50,
+    "bookedTickets": 0,
+    "paintingsIds": ["KS1", "KS2"]
+  }</code></pre>
+        </section>
+  
+        <!-- PATCH /events/:id -->
+        <section id="patch-eventsid" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">PATCH /events/:id</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Opdaterer eksisterende event-detaljer. Understøtter delvise opdateringer, dvs. kun de felter, der skal ændres, opdateres.
+          </p>
+          <p class="mb-2"><strong>Anmodnings URL:</strong> <code>PATCH /events/:id</code></p>
+          <p class="mb-2"><strong>Anmodnings body (JSON):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "title": "Opdateret Event Title",
+    "description": "Ny beskrivelse\nmed linjeskift.",
+    "paintingsIds": ["KS3", "KS4"]
+  }</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "id": "f9b5a3c8-7e99-4d45-b4a8-d1234567890a",
+    "title": "Opdateret Event Title",
+    "date": "2025-05-01",
+    "locationId": "1",
+    "curator": "Kurator Navn",
+    "description": "Ny beskrivelse\nmed linjeskift.",
+    "totalTickets": 50,
+    "bookedTickets": 0,
+    "paintingsIds": ["KS3", "KS4"]
+  }</code></pre>
+        </section>
+  
+        <!-- PUT /events/:id/book -->
+        <section id="put-eventsidbook" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">PUT /events/:id/book</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Booker billetter til et event.
+          </p>
+          <p class="mb-2"><strong>Anmodnings URL:</strong> <code>PUT /events/:id/book</code></p>
+          <p class="mb-2"><strong>Anmodnings body (JSON):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "tickets": 2
+  }</code></pre>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "message": "Tickets booked",
+    "event": {
+      "id": "f9b5a3c8-7e99-4d45-b4a8-d1234567890a",
+      "title": "Event Title",
+      "date": "2025-05-01",
+      "locationId": "1",
+      "curator": "Kurator Navn",
+      "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
+      "totalTickets": 50,
+      "bookedTickets": 2,
+      "paintingsIds": ["KS1", "KS2"]
+    }
+  }</code></pre>
+        </section>
+  
+        <!-- DELETE /events/:id -->
+        <section id="delete-eventsid" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">DELETE /events/:id</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Sletter et specifikt event.
+          </p>
+          <p class="mb-2"><strong>Anmodnings URL:</strong> <code>DELETE /events/:id</code></p>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "message": "Event deleted successfully.",
+    "event": {
+      "id": "f9b5a3c8-7e99-4d45-b4a8-d1234567890a",
+      "title": "Event Title",
+      "date": "2025-05-01",
+      "locationId": "1",
+      "curator": "Kurator Navn",
+      "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
+      "totalTickets": 50,
+      "bookedTickets": 0,
+      "paintingsIds": ["KS1", "KS2"]
+    }
+  }</code></pre>
+        </section>
+  
+        <!-- POST /events/reset -->
+        <section id="post-eventsreset" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">POST /events/reset</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Nulstiller alle events ved at generere nye events med tilfældige billetantal og fjerner brugerdefinerede ændringer.
+          </p>
+          <p class="mb-2"><strong>Anmodnings URL:</strong> <code>POST /events/reset</code></p>
+          <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>{
+    "message": "Events reset"
+  }</code></pre>
+        </section>
+              <!-- Datafelter i Event-objektet -->
+        <section id="datafelter-event" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">Datafelter i Event-objektet</h3>
+          <p class="mb-2">
+            <strong>Beskrivelse:</strong> Event-objektet indeholder følgende felter:
+          </p>
+          <ul class="list-inside mb-4 list-none">
+            <li><code>id</code> (string): Unikt id genereret med UUID.</li>
+            <li><code>title</code> (string): Titel på eventet.</li>
+            <li><code>date</code> (string): Dato for eventet; skal være én af de tilladte datoer.</li>
+            <li><code>locationId</code> (string): ID for den lokation, eventet afholdes på.</li>
+            <li><code>curator</code> (string): Navn på kuratoren, der har oprettet eventet.</li>
+            <li><code>description</code> (string): En detaljeret beskrivelse af eventet, som kan indeholde linjeskift.</li>
+            <li><code>totalTickets</code> (number): Det maksimale antal billetter, typisk bestemt af lokationens kapacitet.</li>
+            <li><code>bookedTickets</code> (number): Det aktuelle antal bookede billetter.</li>
+            <li><code>paintingsIds</code> (array): Et array med maleri-ID'er. Hvis feltet er tomt, anvendes et placeholder-billede (eller et tilfældigt billede).</li>
+          </ul>
+        </section>
+  
+        <!-- Praktiske Eksempler med fetch() -->
+        <section id="praktiske-eksempler" class="mb-8">
+          <h3 class="text-xl font-semibold mb-2">Praktiske Eksempler</h3>
+          <p class="mb-2"><strong>Oprettelse af et Event med fetch API:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto mb-4">
+  <code>
+  fetch('http://localhost:8080/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: "Kunstudstilling",
+      date: "2025-05-01",
+      locationId: "1",
+      curator: "Mia M.",
+      description: "Dette er en spændende udstilling\nmed moderne kunst.",
+      paintingsIds: ["KS101", "KS102"]
+    })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data));
+  </code></pre>
+          
+          <p class="mb-2"><strong>Opdatering af et Event med fetch API:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto mb-4">
+  <code>
+  fetch('http://localhost:8080/events/f9b5a3c8-7e99-4d45-b4a8-d1234567890a', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: "Opdateret Event Title",
+      description: "Ny beskrivelse\nmed linjeskift.",
+      paintingsIds: ["KS3", "KS4"]
+    })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data));
+  </code></pre>
+  
+          <p class="mb-2"><strong>Booking af Billetter med fetch API:</strong></p>
+          <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
+  <code>
+  fetch('http://localhost:8080/events/f9b5a3c8-7e99-4d45-b4a8-d1234567890a/book', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tickets: 3 })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data));
+  </code>
+          </pre>
+        </section>
+      </div>
+</body>
+</html>

@@ -95,7 +95,7 @@
         <section id="get-events" class="mb-8">
           <h3 class="text-xl font-semibold mb-2">GET /events</h3>
           <p class="mb-2">
-            <strong>Beskrivelse:</strong> Returnerer alle events. Hvert event beriges med tilhørende lokationsdata. Hvis et event ikke har maleri-ID'er (`paintingsIds`), tildeles der et tilfældigt billede.
+            <strong>Beskrivelse:</strong> Returnerer alle events. Hvert event beriges med tilhørende lokationsdata. Hvis et event ikke har maleri-ID'er (`artworkIds`), tildeles der et tilfældigt billede.
           </p>
           <p class="mb-2"><strong>Anmodning:</strong></p>
           <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
@@ -114,7 +114,7 @@
       "description": "Beskrivelse af eventet. Kan indeholde linjeskift.",
       "totalTickets": 50,
       "bookedTickets": 17,
-      "paintingsIds": ["KS2"],
+      "artworkIds": ["KS2"],
       "location": {
         "id": "1",
         "name": "Kunsthallen A",
@@ -149,7 +149,7 @@
     "description": "Beskrivelse af eventet.",
     "totalTickets": 50,
     "bookedTickets": 17,
-    "paintingsIds": ["KS2"],
+    "artworkIds": ["KS2"],
     "location": {
       "id": "1",
       "name": "Kunsthallen A",
@@ -167,7 +167,7 @@
         <section id="post-events" class="mb-8">
           <h3 class="text-xl font-semibold mb-2">POST /events</h3>
           <p class="mb-2">
-            <strong>Beskrivelse:</strong> Opretter et nyt event. Feltet <code>paintingsIds</code> er et array af maleri-ID'er fra SMK-API'et ("object_number").
+            <strong>Beskrivelse:</strong> Opretter et nyt event. Feltet <code>artworkIds</code> er et array af maleri-ID'er fra SMK-API'et ("object_number").
           </p>
           <p class="mb-2"><strong>Anmodnings URL:</strong> <code>POST /events</code></p>
           <p class="mb-2"><strong>Anmodnings body (JSON):</strong></p>
@@ -178,7 +178,7 @@
     "locationId": "1",
     "curator": "Kurator Navn",
     "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
-    "paintingsIds": ["KS1", "KS2"]
+    "artworkIds": ["KS1", "KS2"]
   }</code></pre>
           <p class="mb-2"><strong>Eksempel på svar (HTTP 201):</strong></p>
           <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
@@ -191,7 +191,7 @@
     "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
     "totalTickets": 50,
     "bookedTickets": 0,
-    "paintingsIds": ["KS1", "KS2"]
+    "artworkIds": ["KS1", "KS2"]
   }</code></pre>
         </section>
   
@@ -207,7 +207,7 @@
   <code>{
     "title": "Opdateret Event Title",
     "description": "Ny beskrivelse\nmed linjeskift.",
-    "paintingsIds": ["KS3", "KS4"]
+    "artworkIds": ["KS3", "KS4"]
   }</code></pre>
           <p class="mb-2"><strong>Eksempel på svar (HTTP 200):</strong></p>
           <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-x-auto">
@@ -220,7 +220,7 @@
     "description": "Ny beskrivelse\nmed linjeskift.",
     "totalTickets": 50,
     "bookedTickets": 0,
-    "paintingsIds": ["KS3", "KS4"]
+    "artworkIds": ["KS3", "KS4"]
   }</code></pre>
         </section>
   
@@ -249,7 +249,7 @@
       "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
       "totalTickets": 50,
       "bookedTickets": 2,
-      "paintingsIds": ["KS1", "KS2"]
+      "artworkIds": ["KS1", "KS2"]
     }
   }</code></pre>
         </section>
@@ -274,7 +274,7 @@
       "description": "Dette er en detaljeret beskrivelse\nMed flere linjer.",
       "totalTickets": 50,
       "bookedTickets": 0,
-      "paintingsIds": ["KS1", "KS2"]
+      "artworkIds": ["KS1", "KS2"]
     }
   }</code></pre>
         </section>
@@ -307,7 +307,7 @@
             <li><code>description</code> (string): En detaljeret beskrivelse af eventet, som kan indeholde linjeskift.</li>
             <li><code>totalTickets</code> (number): Det maksimale antal billetter, typisk bestemt af lokationens kapacitet.</li>
             <li><code>bookedTickets</code> (number): Det aktuelle antal bookede billetter.</li>
-            <li><code>paintingsIds</code> (array): Et array med maleri-ID'er. Hvis feltet er tomt, anvendes et placeholder-billede (eller et tilfældigt billede).</li>
+            <li><code>artworkIds</code> (array): Et array med maleri-ID'er. Hvis feltet er tomt, anvendes et placeholder-billede (eller et tilfældigt billede).</li>
           </ul>
         </section>
   
@@ -326,7 +326,7 @@
       locationId: "1",
       curator: "Mia M.",
       description: "Dette er en spændende udstilling\nmed moderne kunst.",
-      paintingsIds: ["KS101", "KS102"]
+      artworkIds: ["KS101", "KS102"]
     })
   })
     .then(res => res.json())
@@ -342,7 +342,7 @@
     body: JSON.stringify({
       title: "Opdateret Event Title",
       description: "Ny beskrivelse\nmed linjeskift.",
-      paintingsIds: ["KS3", "KS4"]
+      artworkIds: ["KS3", "KS4"]
     })
   })
     .then(res => res.json())
